@@ -1,0 +1,21 @@
+:root { color-scheme: light; font-family: "Iceland", sans-serif; }
+
+.artwork-back-link {
+  position: fixed;
+  z-index: 20;
+  top: 1.25rem;
+  left: 1.25rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(22, 22, 22, 0.55);
+  border-radius: 999px;
+  background: rgba(247, 246, 242, 0.9);
+  color: #161616;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+.artwork-back-link:hover, .artwork-back-link:focus-visible { background: #161616; color: #f7f6f2; outline: none; }
+.artwork-frame { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }

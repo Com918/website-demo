@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spine Sculpture Seed Contact Sheet</title>
+  <style>
+    html, body { margin: 0; background: #d7d5d0; font-family: system-ui, sans-serif; }
+    body { display: grid; grid-template-columns: repeat(2, minmax(320px, 1fr)); gap: 12px; padding: 12px; }
+    figure { margin: 0; background: #ecebe7; box-shadow: 0 2px 12px #0002; }
+    figcaption { padding: 7px 10px; color: #3a3532; font-size: 13px; }
+    iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
+  </style>
+</head>
+<body>
+  <script>
+    const seeds = [3, 17, 42, 81, 123, 256, 417, 608, 999, 1201, 1603, 2048];
+    seeds.forEach((seed) => {
+      const figure = document.createElement('figure');
+      figure.innerHTML = `<iframe title="Spine seed ${seed}" src="index.html?seed=${seed}&webgl=0"></iframe><figcaption>seed=${seed}</figcaption>`;
+      document.body.appendChild(figure);
+    });
+  </script>
+</body>
+</html>
