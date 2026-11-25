@@ -6,7 +6,8 @@
  * tuned as a visual system: layout, text/glyph geometry, particles, rings,
  * and rendering are independent enough to iterate safely.
  * Water motion is adapted from the supplied OpenProcessing reference:
- * tp5_250806_StaircaseWaterway, credited to はぅ君. The adapted idea is
+ * tp5_250806_StaircaseWaterway, credited to はぅ君 and marked CC BY-NC-SA 3.0
+ * in the sketch's Attribute panel. The adapted idea is
  * documented again at flowField(); the surrounding particle, typography,
  * ring-collision, and rendering systems are specific to this project.
  */

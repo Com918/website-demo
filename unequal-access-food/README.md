@@ -22,7 +22,7 @@ The movement idea documented in `flowField()` was adapted from the supplied Open
 
 <https://openprocessing.org/@trumpliu/2942320>
 
-The adaptation is limited to the noise-controlled switch between a fast vertical fall and a sideways stair-like slide. The particle objects, text barriers, ceramic-ring interactions, typography layout, and rendering layers are project-specific additions. The exact license shown in the sketch's Attribute panel must be confirmed before final submission. OpenProcessing's license FAQ describes CC BY-NC-SA as its default license; if that is the selected license, credit, non-commercial use, and ShareAlike conditions apply.
+The adaptation is limited to the noise-controlled switch between a fast vertical fall and a sideways stair-like slide. The particle objects, text barriers, ceramic-ring interactions, typography layout, and rendering layers are project-specific additions. The supplied sketch's Attribute panel identifies the reference as **CC BY-NC-SA 3.0**, so attribution, non-commercial use, and ShareAlike conditions apply. The source also credits はぅ君 and identifies the work as a fork of `tp5_250806_StaircaseWaterway`.
 
 ## Tuning
 
