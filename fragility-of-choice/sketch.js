@@ -154,6 +154,8 @@ function syncViewport() {
 }
 
 function readSeed() {
+  // Lessons 02 and 11-12: URL values are strings, so the conditions validate
+  // and convert them before random generation uses the result.
   const params = new URLSearchParams(window.location.search);
   const raw = params.get("seed");
   const locked = params.get("lock") === "1";
@@ -262,6 +264,8 @@ function centerComposition() {
 }
 
 function buildSites(count) {
+  // Lessons 03-06: this function builds an array of point objects with a loop;
+  // each object becomes a candidate location for a photographic fragment.
   const radius = plateLayout.size * 0.46;
   const sites = [];
   const targetMinDistance = lerp(108, 42, fractureSeverity);
@@ -684,6 +688,8 @@ function makeFragmentTexture(polygon) {
 }
 
 function buildNetwork() {
+  // Lessons 04-07: graphNodes and graphEdges are arrays of objects. The local
+  // link() function and forEach loops turn those objects into a connected graph.
   threads = [];
   graphNodes = [];
   graphEdges = [];
@@ -2006,6 +2012,8 @@ function renderAtmosphere() {
 }
 
 function renderNetwork() {
+  // Lessons 05-08: each edge stores a path array, and the loop draws that data
+  // with p5 line/shape operations after routing and validation are complete.
   beginDesignSpace();
   drawingContext.lineCap = "round";
   drawingContext.lineJoin = "round";

@@ -1,72 +1,127 @@
-# Generative Flowing Spine Sculpture
+# Hidden Hunger — COMM2754 Assignment 1
 
-This p5.js artwork uses the original high-resolution `3x/ver 1.png` as the primary repeated vertebra card and introduces exactly two or three `3x/ver 2-2.png` deficiency cards per composition. A seeded generator builds one to three articulated spine strands that travel beyond the 1920 × 1080 frame, curve through cumulative joint rotations, stay spatially separate, and keep the original anatomical facing. The selected Ver 2-2 bones blink slowly to signal nutritional deficiency.
+Version 1.0.0 — 25 November 2026
 
-The barbed-wire photograph is used only as a composition reference for flowing paths and perspective. It is not used as a bone or material model. Red threads, artificial breaks, full-scene animation, fingerprints, and decorative textures remain disabled.
+This project is a generative website about SDG 2 — Zero Hunger and the right to adequate nutrition. It combines experimental editorial design with three p5.js prototypes. Each prototype explores a different visual interpretation of hidden hunger, access, the body, and choice.
+
+Student: Bui Tam Nhu<br>
+Student ID: s4140838<br>
+Group member: Tran Anh Tuan<br>
+Course: COMM2754 — Digital Media Specialisation 1<br>
+Institution: RMIT University Vietnam, Saigon South Campus, School of Communication and Design, Digital Media Program<br>
+Website: https://com918.github.io/website-demo/
 
 ## Run locally
+
+Start a static web server from this `code` directory:
 
 ```bash
 python3 -m http.server
 ```
 
-Open <http://localhost:8000> or use VS Code Live Server. The canvas is `1920 × 1080` and scales proportionally to fit the browser without scrollbars.
+Open <http://localhost:8000/> and load `index.html`. The page requires an internet connection for the p5.js CDN and the Iceland font used by the website. No build step or package installation is required.
 
-## Seeds and diagnostic stages
+The experiments use a 1920 × 1080 design space and scale to the available browser viewport. Use a fullscreen browser window for the intended presentation.
 
-- Reload without a seed for a new composition.
-- Use `?seed=42` to reproduce an exact strand arrangement.
-- Use `?stage=assembly` to inspect one foreground articulated strand.
-- Use `?stage=assembly&debug=1` to show one 10-vertebra diagnostic spine with red upper-notch dots, blue lower-tail dots, exact joint links, and index labels.
-- Use `?stage=path` to inspect all articulated centerlines.
-- Use `?stage=perspective` to see spatial scale without DOF.
-- Use `?stage=dof` to inspect the scale-based depth composition and selective far-layer atmosphere.
-- No stage parameter shows the final layered version.
-- Use `?webgl=1` to opt into the full WEBGL renderer. The default 2D renderer uses the same seeded x/y/z data when a browser has unreliable WEBGL.
+## Website navigation
 
-The normal render uses `noLoop()`, so each page load creates one still image. A low-frequency timer redraws the scene every 900ms only to hide or reveal the selected Ver 2-2 bones. The console reports the seed, strand count, vertebra count, continuity status, background colour, and render time.
+- `index.html` is the homepage and entry point.
+- `prototype-01.html` opens Prototype 1.
+- `prototype-02.html` opens Prototype 2.
+- `prototype-03.html` opens Prototype 3.
+- Each prototype page includes a link back to the homepage.
 
-## Main systems
+## Prototypes
 
-- `UPPER_NOTCH_ANCHOR` and `LOWER_TAIL_TIP_ANCHOR` are editable normalized landmark coordinates calibrated on the new 3x artwork.
-- `NOTCH_INSET_X` and `NOTCH_INSET_Y` move the previous-notch target a small source-pixel distance inward while keeping the tail-to-notch equation exact.
-- `generateJointAngles()` creates correlated C-shaped or S-shaped angle increments.
-- `headingProfile()` creates a mandatory smooth multi-wave heading change, while `strandCurvatureValid()` rejects paths with insufficient lateral travel or turning reversal.
-- `buildValidatedMainStrand()` creates and validates the single dominant foreground strand before secondary depth layers are added.
-- `buildArticulatedSpine()` places each new card from the previous card's world-space upper notch.
-- `calculateNextJointTransform()` rotates the new card around its own lower-tail tip and applies `newPosition = jointTarget - R * tailTip`, where `jointTarget` is the previous notch plus the fixed chain clearance.
-- `JOINT_GAP` adds a small, consistent clearance along the calibrated chain direction, so adjacent bodies do not pile up while the transform remains deterministic.
-- `createSpineAssembly()` remains the reusable assembly entry point, but no longer distributes cards independently along an absolute curve.
-- `validateComposition()` and `detectExcessiveOverlap()` compare every visible vertebra pair across strands with rotated alpha-mask geometry and a 14px ink-to-ink safety gap.
-- `acceptClearStrands()` keeps the focal spine and rejects an unsafe secondary strand instead of forcing it into the composition; later retries may use fewer secondary strands.
-- `buildOccupancy()` and `compositionQuality()` use a coarse 6×4 grid to reject edge-heavy or centrally empty candidates with bounded retries.
-- `visibleCardGeometries()` and `cardSilhouettesTouch()` compare rotated alpha-mask silhouettes with a 14px negative-space gap, so separate strands are regenerated before they touch or cross.
-- `framingQuality()` rewards endpoints that continue beyond the frame, so large foreground strands crop intentionally instead of stopping just inside the canvas.
-- `strandContinuityValid()` requires both rotated silhouettes to clear the frame by the full margin; `extendStrandToExit()` can prepend and append connected cards, and `ensureFramePassage()` repairs complete chains without deleting vertebrae.
-- Depth tiers assign one dominant foreground, supporting midground, and quieter background scale and z positions.
-- Foreground cards use the untouched source PNGs; midground cards are sharp with mild saturation/contrast reduction; far cards use source-resolution filtered layers with only subtle blur.
-- All tiers remain at 100% opacity; depth is created through scale, z ordering, and restrained layer-specific appearance.
-- `assignVariantVertebrae()` selects exactly two or three sufficiently visible Ver 2-2 cards globally after all strands are built; both versions share the same transforms and anchors.
-- `visibleCardRatio()` excludes offscreen or heavily cropped cards, while `selectDistributedVariants()` varies the chosen positions across strands and space.
-- Far strands render first, but collision validation keeps separate strands from overlapping.
-- Far-layer processing uses full 2196 × 1314 source-resolution buffers; no low-resolution blur buffer or global canvas filter is used.
-- `?debug=1` draws red notch markers, blue tail markers, and white connection-distance lines; it is off in the normal artwork.
-- Visible Ver 2-2 bones blink at a steady, slow interval to mark nutritional deficiency.
+### Prototype 1 — Generative Spine Sculpture
 
-## Project files
+`sketch.js` generates one dominant articulated spine and supporting depth layers from transparent vertebra illustrations. The composition uses seeded randomness, Perlin noise, arrays, loops, transformations, a custom `Vertebra` class, forward-kinematic joints, alpha-mask separation checks, and an optional WebGL renderer. Reloading without a URL seed creates a new composition. `?seed=42` reproduces a composition for testing.
 
-- `index.html` loads p5.js and the fullscreen shell.
-- `style.css` centers and scales the 16:9 canvas on a white background.
-- `sketch.js` contains seeded joint-angle generation, forward-kinematic vertebra placement, depth ordering, perspective, and separation validation.
-- `3x/ver 1.png` is the primary transparent vertebra illustration.
-- `3x/ver 2-2.png` is the transparent nutritional-deficiency variation.
-- `human-spine.png` is retained as the legacy source asset but is no longer rendered.
-- `contact-sheet.html` opens reproducible seed previews.
-- `CODE_HIGHLIGHTS.md` documents the independent techniques and references.
-- `LICENSE` contains the complete GNU GPL v3.0 text.
+Useful diagnostic parameters include `?stage=assembly`, `?stage=path`, `?stage=perspective`, `?stage=dof`, and `?stage=assembly&debug=1`.
 
-The canvas enables high-quality image smoothing, and the optional WebGL renderer uses linear texture filtering for enlarged or rotated cards.
+### Prototype 2 — Unequal Access to Food
+
+`unequal-access-food/sketch.js` is an animated particle study. Particles move through a noise-based flow field, encounter glyph-level text barriers, and are captured or released by ceramic rings. The sketch demonstrates p5.js lifecycle functions, variables, arrays, objects, loops, conditionals, text measurement, image loading, Perlin noise, and animation.
+
+The internal design canvas is fixed at 1920 × 1080. `unequal-access-food/style.css` scales that canvas proportionally to fullscreen without changing the artwork coordinate system.
+
+Press `D` to toggle the optional debug overlay.
+
+### Prototype 3 — The Fragility of Choice
+
+`fragility-of-choice/sketch.js` procedurally fractures the edited ceramic plate into photographic fragments and generates a graph from the fractured edges. It uses anchor nodes, local graph clusters, long-distance bridges, force relaxation, obstacle-aware routing, collision checks, editorial containers, and orthogonal connector paths. The opening build is animated, then the artwork settles into a static composition.
+
+Use `?seed=2401&lock=1` for a reproducible composition. The `severity` parameter can be used for controlled fragmentation tests, for example `?seed=8421&severity=0.56&lock=1`.
+
+## Code concepts from the 12-week p5.js course
+
+The source comments marked `Lesson` identify techniques connected to the course schedule:
+
+- Lessons 01–02: variables, constants, functions, conditions, random values, colour, and text.
+- Lesson 03: incrementing values and `for` loops.
+- Lesson 04: arrays, indexes, `push()`, `translate()`, and `rotate()`.
+- Lesson 05: reusable array builders, arrow functions, lines, and shapes.
+- Lessons 06–07: objects, properties, methods, classes, `forEach()`, and `map()`.
+- Lesson 08: image filtering and class-based rendering.
+- Lessons 11–12: `if`, `else`, `else if`, and `includes()`.
+- Supplement 02: running a sketch through a local web server.
+- Supplement 04: loading and manipulating photographic assets.
+
+The course reference is the [12-Week p5.js course](https://renickbell.net/doku.php?id=12-week-p5js). The comments are intended to help explain the code during assessment; they do not claim that every line was written independently from a blank file.
+
+## External libraries and references
+
+### p5.js
+
+The project loads p5.js from jsDelivr:
+
+- Prototype 1: p5.js 1.9.4.
+- Prototypes 2 and 3: p5.js 1.11.10.
+
+p5.js is an external open-source library and retains its own license. The project source is released under GPL 3.0, but that project license does not replace the licenses of external libraries or references.
+
+### Prototype 2 — OpenProcessing reference
+
+The flow-field idea in Prototype 2 was adapted from the movement principle of `tp5_250806_StaircaseWaterway`, credited on the supplied OpenProcessing reference to はぅ君:
+
+<https://openprocessing.org/@trumpliu/2942320>
+
+The adapted idea is limited to the behaviour documented in `flowField()` in `unequal-access-food/sketch.js`: a shared Perlin-noise sample switches a particle between a fast vertical fall and a sideways stair-like slide. The particle data model, text barriers, ring interactions, typography layout, rendering layers, and tuning parameters are project-specific additions.
+
+The [OpenProcessing license FAQ](https://intercom.help/openprocessing/en/articles/5714786-choosing-a-license-for-your-sketches) explains that the default license is commonly CC BY-NC-SA and that Attribution-NonCommercial licenses permit non-commercial adaptation with credit. The exact license displayed on the supplied sketch page must still be checked in its Attribute panel because the page was unavailable during the audit. If it is CC BY-NC-SA, the attribution, non-commercial restriction, and ShareAlike requirement apply; see the [Creative Commons license deed](https://creativecommons.org/licenses/by-nc-sa/3.0/).
+
+### Other visual references
+
+The Prototype 1 barbed-wire image and anatomical/Procreate references informed composition, movement, and orientation only. No reference image is loaded by the website as an artwork asset. The supplied ceramic, food, vertebra, and ring images are stored locally in the relevant asset folders.
+
+## AI assistance and student contribution
+
+AI tools were used during code exploration, debugging, documentation support, and iterative implementation. The student selected the SDG, concept, visual direction, source assets, prototype structure, and evaluated successive compositions. The code comments identify external adaptations and course concepts so the student can explain them during assessment. The student should review this statement and adjust it if the final development record requires more specific attribution.
+
+## Project structure
+
+```text
+index.html                         Homepage
+homepage.css / homepage.js         Homepage layout and scroll behaviour
+prototype-01.html                  Prototype 1 wrapper
+prototype-02.html                  Prototype 2 wrapper
+prototype-03.html                  Prototype 3 wrapper
+sketch.js                          Prototype 1 p5.js sketch
+unequal-access-food/               Prototype 2 source and asset
+fragility-of-choice/               Prototype 3 source and assets
+3x/                                Prototype 1 vertebra assets
+human-spine.png                    Retained legacy reference asset
+contact-sheet.html                 Prototype 1 seed preview page
+CODE_HIGHLIGHTS.md                 Extended Prototype 1 technical notes
+LICENSE                            Full GNU GPL v3.0 text
+```
 
 ## License
 
-This project is released under GNU GPL v3.0. See `LICENSE` for the full text. p5.js remains under its own license.
+The original project code is released under the GNU General Public License v3.0. See [`LICENSE`](LICENSE) for the complete license text. Third-party libraries, references, and any adapted code remain subject to their separate terms described above.
+
+## Credits and contact
+
+Created by Bui Tam Nhu and Tran Anh Tuan for COMM2754, RMIT University Vietnam.<br>
+Contact: s4140838@rmit.edu.vn<br>
+Website: <https://com918.github.io/website-demo/>

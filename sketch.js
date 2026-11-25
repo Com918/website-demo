@@ -81,6 +81,8 @@ function toggleVariantVisibility() {
 }
 
 // initializeSeeds() makes reloads unique while keeping URL seeds reproducible.
+// Lesson 02: the conditional chooses either a reproducible user-provided value
+// or a new random value for the next generated composition.
 function initializeSeeds() {
   const rawSeed = new URLSearchParams(window.location.search).get('seed');
   const requested = rawSeed === null ? NaN : Number(rawSeed);
@@ -170,6 +172,8 @@ function makeScene() {
 }
 
 // buildArray() creates a predictable seeded collection with a small for loop.
+// Lessons 03-05: the loop increments an index and the arrow function builds
+// one item per position, demonstrating arrays, callbacks, and push().
 function buildArray(count, builder) {
   const items = [];
   for (let index = 0; index < count; index += 1) items.push(builder(index));
@@ -665,6 +669,8 @@ function createSpineAssembly(strand) {
 }
 
 // buildArticulatedSpine() stores every transform before creating the next bone.
+// Lessons 04-06: an indexed array and a for loop build a chain of custom
+// Vertebra objects, while each object reads the previous object's properties.
 function buildArticulatedSpine(strand) {
   const angles = generateJointAngles(strand.count, strand);
   const bones = [makeRootVertebra(strand, angles[0])];
@@ -1110,6 +1116,8 @@ function reportRender() {
 }
 
 // Vertebra owns one original illustration card and its local curve orientation.
+// Lessons 06-07: this class groups data (properties) and behaviour (methods)
+// so one Vertebra object can be transformed and drawn consistently.
 class Vertebra {
   constructor(position, tangent, index, angle, strandScale, strandIndex, pivot) {
     this.position = position;

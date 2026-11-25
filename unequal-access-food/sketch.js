@@ -5,13 +5,17 @@
  * The simulation is intentionally organized by concern so the artwork can be
  * tuned as a visual system: layout, text/glyph geometry, particles, rings,
  * and rendering are independent enough to iterate safely.
- * Water motion is adapted from the supplied tp5_250806_StaircaseWaterway fork
- * credited to はぅ君.
+ * Water motion is adapted from the supplied OpenProcessing reference:
+ * tp5_250806_StaircaseWaterway, credited to はぅ君. The adapted idea is
+ * documented again at flowField(); the surrounding particle, typography,
+ * ring-collision, and rendering systems are specific to this project.
  */
 
+// Lesson 01-02: named variables and constants keep the visual system readable.
+// The fixed design space is 1920 x 1080; CSS scales it to the browser viewport.
 const CONFIG = {
-  logicalWidth: 1400,
-  logicalHeight: 820,
+  logicalWidth: 1920,
+  logicalHeight: 1080,
   particleCount: 3400,
   maxCapturedPerRing: [24, 24, 86, 8, 24, 24],
   upperRetention: 0.31,
@@ -62,8 +66,8 @@ let sourceTime = 0;
 let emissionSerial = 0;
 let MIST_WIDTH = 360;
 let MIST_HEIGHT = 211;
-const DESIGN_WIDTH = 1400;
-const DESIGN_HEIGHT = 820;
+const DESIGN_WIDTH = 1920;
+const DESIGN_HEIGHT = 1080;
 
 function preload() {
   ringImage = loadImage("assets/ceramic-ring.png");
@@ -72,6 +76,8 @@ function preload() {
   );
 }
 
+// Lesson 01 and Supplement 08: p5 calls setup once, then draw repeatedly.
+// Setup creates the arrays and image buffers before the animation begins.
 function setup() {
   // The artwork is already rendered from a stable logical coordinate system.
   // A single backing pixel keeps the particle simulation responsive in Chrome
@@ -134,8 +140,10 @@ function windowResized() {
 }
 
 function syncViewportSize() {
-  CONFIG.logicalWidth = Math.max(320, windowWidth || DESIGN_WIDTH);
-  CONFIG.logicalHeight = Math.max(240, windowHeight || DESIGN_HEIGHT);
+  // Keep the internal artwork at full-HD; the stylesheet handles fullscreen
+  // presentation without changing the coordinate system used by the sketch.
+  CONFIG.logicalWidth = DESIGN_WIDTH;
+  CONFIG.logicalHeight = DESIGN_HEIGHT;
   const widthScale = CONFIG.logicalWidth / DESIGN_WIDTH;
   CONFIG.particleCount = Math.round(3400 * constrain(widthScale, 0.8, 1.8));
   MIST_WIDTH = Math.max(180, Math.round(CONFIG.logicalWidth / 3.5));
@@ -147,6 +155,8 @@ function layoutScale() {
 }
 
 function buildLayout() {
+  // Lesson 04-06: this array of objects stores reusable positions and sizes.
+  // Later loops read these properties instead of repeating drawing constants.
   const W = CONFIG.logicalWidth;
   const H = CONFIG.logicalHeight;
   const s = layoutScale();
@@ -517,6 +527,8 @@ function resizeParticlePool() {
 }
 
 function makeParticle(initial = false, index = 0) {
+  // Lesson 06-07: each particle is an object with properties that describe
+  // both its state and its visual behaviour during the animation.
   const W = CONFIG.logicalWidth;
   const streamId = Math.floor(grainRand(0, FLOW_STREAMS.length));
   const streamX = W * FLOW_STREAMS[streamId];
@@ -552,6 +564,8 @@ function makeParticle(initial = false, index = 0) {
 }
 
 function updateParticles(dt) {
+  // Lesson 03 and Lessons 11-12: the loop updates every array element while
+  // if/else branches move particles between dormant, falling, and captured states.
   sourceTime += 9 * dt;
   const emissionProgress = constrain(simulationAge / CONFIG.emissionRampFrames, 0, 1);
   const targetActive = Math.floor(CONFIG.particleCount * emissionProgress);
@@ -615,10 +629,10 @@ function updateParticles(dt) {
 }
 
 function flowField(x, y, t, particle) {
-  // Direct adaptation of Staircase Waterway: one shared Perlin sample decides
-  // whether this droplet is in a fast fall or a sideways stair-edge slide.
-  // Gravity is reset during a slide, so the next high-noise region produces a
-  // fresh, visible cascade instead of a precomputed geometric route.
+  // Adapted external principle: one shared Perlin sample decides whether a
+  // droplet falls quickly or slides sideways along a stair-like edge. This is
+  // the limited borrowed idea; the particle data and project-specific rules
+  // around it were written for this artwork. See README for attribution.
   const W = CONFIG.logicalWidth;
   const noiseValue = noise(x / W, y / 9, t / W);
   if (noiseValue > 0.4) {
