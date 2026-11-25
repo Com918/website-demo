@@ -19,16 +19,18 @@ p5.js from loading local image assets inside the prototypes.
 
 1. Open **Terminal**.
 2. Change into the folder that contains this `index.html`. For a cloned copy
-   of this repository, that is the repository root:
+   of this repository, that is the repository root. Replace the example path
+   with the actual location on your computer:
 
 ```bash
 cd "/path/to/website-demo"
 ```
 
-For the packaged submission copy, use:
+For the packaged submission copy, change into its `code` folder. Replace the
+example path with the actual location where the submission was downloaded:
 
 ```bash
-cd "/Users/com/Documents/RMIT/Spec 1/COMM2754-26t3-s4140838-A1w04-HiddenHunger-Compilation/code"
+cd "/path/to/COMM2754-26t3-s4140838-A1w04-HiddenHunger-Compilation/code"
 ```
 
 3. Start the static server:
