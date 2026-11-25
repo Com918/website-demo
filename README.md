@@ -13,13 +13,37 @@ Website: https://com918.github.io/website-demo/
 
 ## Run locally
 
-Start a static web server from this `code` directory:
+Run the website through a local web server. Do not open `index.html` by
+double-clicking it in Finder: that uses a `file://` URL, which can prevent
+p5.js from loading local image assets inside the prototypes.
+
+1. Open **Terminal**.
+2. Change into the folder that contains this `index.html`. For a cloned copy
+   of this repository, that is the repository root:
 
 ```bash
-python3 -m http.server
+cd "/path/to/website-demo"
 ```
 
-Open <http://localhost:8000/> and load `index.html`. The page requires an internet connection for the p5.js CDN and the Iceland font used by the website. No build step or package installation is required.
+For the packaged submission copy, use:
+
+```bash
+cd "/Users/com/Documents/RMIT/Spec 1/COMM2754-26t3-s4140838-A1w04-HiddenHunger-Compilation/code"
+```
+
+3. Start the static server:
+
+```bash
+python3 -m http.server 8000
+```
+
+4. Open <http://localhost:8000/index.html> in Chrome or another browser.
+5. Keep the Terminal window open while testing. Press `Control + C` in
+   Terminal to stop the server when finished.
+
+The homepage links to all three prototypes. The page requires an internet
+connection for the p5.js CDN and the Iceland font used by the website. No
+build step or package installation is required.
 
 The experiments use a 1920 × 1080 design space and scale to the available browser viewport. Use a fullscreen browser window for the intended presentation.
 
@@ -53,21 +77,16 @@ Press `D` to toggle the optional debug overlay.
 
 Use `?seed=2401&lock=1` for a reproducible composition. The `severity` parameter can be used for controlled fragmentation tests, for example `?seed=8421&severity=0.56&lock=1`.
 
-## Code concepts from the 12-week p5.js course
+## Code concepts
 
-The source comments marked `Lesson` identify techniques connected to the course schedule:
+The comments highlight techniques that are important to the artwork: seeded
+randomness, arrays, loops, objects, classes, conditional logic, noise-based
+motion, particle systems, collision checks, image loading, transformations,
+procedural fracture, graph construction, and routed paths. They explain the
+purpose of each technique in context instead of mapping every line to a class
+exercise.
 
-- Lessons 01–02: variables, constants, functions, conditions, random values, colour, and text.
-- Lesson 03: incrementing values and `for` loops.
-- Lesson 04: arrays, indexes, `push()`, `translate()`, and `rotate()`.
-- Lesson 05: reusable array builders, arrow functions, lines, and shapes.
-- Lessons 06–07: objects, properties, methods, classes, `forEach()`, and `map()`.
-- Lesson 08: image filtering and class-based rendering.
-- Lessons 11–12: `if`, `else`, `else if`, and `includes()`.
-- Supplement 02: running a sketch through a local web server.
-- Supplement 04: loading and manipulating photographic assets.
-
-The course reference is the [12-Week p5.js course](https://renickbell.net/doku.php?id=12-week-p5js). The comments are intended to help explain the code during assessment; they do not claim that every line was written independently from a blank file.
+The project was developed with reference to the [12-Week p5.js course](https://renickbell.net/doku.php?id=12-week-p5js). The comments are intended to help explain the code during assessment; they do not claim that every line was written independently from a blank file.
 
 ## External libraries and references
 
