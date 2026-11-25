@@ -1,0 +1,49 @@
+:root {
+  color-scheme: light;
+  background: #f4f0e9;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #f4f0e9;
+}
+
+body {
+  position: fixed;
+  inset: 0;
+}
+
+.artwork,
+#canvas-holder {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
